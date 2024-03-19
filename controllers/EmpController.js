@@ -54,21 +54,23 @@ export const updateEmployee = catchAsyncError(async (req, res, next) => {
   let employee = await Employee.findById(req.params.id);
   if (!employee) return next(new ErrorHandler("Employee not found", 404));
   const { name, email, phone, designation, gender, course } = req.body;
-  const file = req.file;
+  // const file = req.file;
 
-  const fileUri = getDataUri(file);
-  const mycloud = await cloudinary.v2.uploader.upload(fileUri.content);
-  await cloudinary.v2.uploader.destroy(employee.avatar.public_id);
+  // const fileUri = getDataUri(file);
+  // const mycloud = await cloudinary.v2.uploader.upload(fileUri.content);
+  // await cloudinary.v2.uploader.destroy(employee.avatar.public_id);
 
   employee = await Employee.findByIdAndUpdate(req.params.id, {
     name,
     email,
     phone,
     designation,
-    avatar: {
-      public_id: mycloud.public_id,
-      url: mycloud.secure_url,
-    },
+    gender,
+    course,
+    // avatar: {
+    //   public_id: mycloud.public_id,
+    //   url: mycloud.secure_url,
+    // },
   });
   await employee.save();
   res.status(200).json({
@@ -79,10 +81,10 @@ export const updateEmployee = catchAsyncError(async (req, res, next) => {
 
 //delete employee with id
 export const deleteEmployee = catchAsyncError(async (req, res, next) => {
-  const employee = await Employee.findById(req.params.id);
-  if (!employee) return next(new ErrorHandler("Employee not found", 404));
-  await cloudinary.v2.uploader.destroy(employee.avatar.public_id);
-  await employee.remove();
+  const emp = await Employee.findById(req.params.id);
+  if (!emp) return next(new ErrorHandler("Employee not found", 404));
+  await cloudinary.v2.uploader.destroy(emp.avatar.public_id);
+  await emp.deleteOne();
   res.status(200).json({
     success: true,
     message: "Employee deleted successfully",

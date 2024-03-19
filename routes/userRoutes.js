@@ -4,10 +4,10 @@ import singleUpload from "../middlewares/multer.js";
 const router = express.Router();
 
 import {
-  //   deleteMyProfile,
+  // deleteMyProfile,
   getMyProfile,
   login,
-  //   logout,
+  logout,
   register,
 } from "../controllers/userController.js";
 
@@ -17,7 +17,7 @@ router.route("/register").post(singleUpload, register);
 //login
 router.route("/login").post(login);
 //logout
-// router.route("/logout").get(logout);
+router.route("/logout").get(logout);
 
 //get my profile
 router.route("/me").get(isAuthenticated, getMyProfile);

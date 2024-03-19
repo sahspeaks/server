@@ -54,3 +54,18 @@ export const getMyProfile = catchAsyncError(async (req, res, next) => {
     user,
   });
 });
+
+export const logout = catchAsyncError(async (req, res, next) => {
+  res
+    .status(200)
+    .cookie("token", null, {
+      expires: new Date(Date.now()),
+      httpOnly: true,
+      secure: true,
+      sameSite: "none",
+    })
+    .json({
+      success: true,
+      message: "logged out succesfully",
+    });
+});

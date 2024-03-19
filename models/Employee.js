@@ -17,8 +17,7 @@ const EmployeeSchema = new mongoose.Schema({
     validate: validator.isEmail,
   },
   phone: {
-    type: Number,
-    validate: validator.isMobilePhone,
+    type: String,
   },
 
   designation: {
@@ -27,7 +26,7 @@ const EmployeeSchema = new mongoose.Schema({
   },
   gender: {
     type: String,
-    enum: ["M", "F"],
+    enum: ["Male", "Female"],
   },
   course: {
     type: String,
